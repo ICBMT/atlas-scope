@@ -1,0 +1,55 @@
+{
+    "name": "atlas/scope",
+    "description": "Scan a Laravel, C++, C# or Python project and explore it as a 3D map of routes, classes, models, namespaces and database tables.",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "atlas",
+        "visualisation",
+        "static-analysis",
+        "code-map",
+        "3d",
+        "three.js"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "ext-zip": "*",
+        "ext-mbstring": "*",
+        "laravel/framework": "^13.0",
+        "nikic/php-parser": "^5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^11.0",
+        "phpunit/phpunit": "^12.5"
+    },
+    "suggest": {
+        "ext-sqlite3": "The default database for a fresh install, and what the bundled dev server expects."
+    },
+    "autoload": {
+        "psr-4": {
+            "Atlas\\Scope\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Atlas\\Scope\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Atlas\\Scope\\AtlasScopeServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit",
+        "build": "vite build"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

@@ -1,0 +1,13 @@
+{
+    "name": "atlas-scope-assets",
+    "private": true,
+    "description": "Builds the renderer bundle that ships in dist/.",
+    "type": "module",
+    "scripts": {
+        "build": "vite build && node bin/stamp.mjs"
+    },
+    "devDependencies": {
+        "three": "^0.180.0",
+        "vite": "^8.0.0"
+    }
+}
