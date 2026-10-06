@@ -1,7 +1,11 @@
 import { defineConfig } from 'vite';
 
 /**
- * Builds the bundle the package ships in `dist/`.
+ * Builds the bundle the package ships in `assets/`.
+ *
+ * Not called `dist/`: a directory with that name (or build/, out/, target/) is
+ * treated as generated output by the workspace tooling this was developed in and
+ * may be dropped, which would leave the package without its renderer.
  *
  * Deliberately not laravel-vite-plugin: the host application owns its own Vite
  * setup, and this build has to work with none of it — the output is two files
@@ -10,7 +14,7 @@ import { defineConfig } from 'vite';
  */
 export default defineConfig({
     build: {
-        outDir: 'dist',
+        outDir: 'assets',
         emptyOutDir: true,
         cssCodeSplit: false,
         chunkSizeWarningLimit: 1600,

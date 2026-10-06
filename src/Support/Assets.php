@@ -7,7 +7,7 @@ namespace Atlas\Scope\Support;
 /**
  * URLs for the renderer's compiled bundles.
  *
- * The package ships its own build in `dist/`, so a host application needs no
+ * The package ships its own build in `assets/`, so a host application needs no
  * Node toolchain. Two ways to serve it, and the published one wins:
  *
  *   1. `php artisan vendor:publish --tag=atlas-assets` copies the build into
@@ -21,7 +21,7 @@ final class Assets
     /** The directory the package's build lives in. */
     public static function path(string $file = ''): string
     {
-        return dirname(__DIR__, 2).'/dist/'.ltrim($file, '/');
+        return dirname(__DIR__, 2).'/assets/'.ltrim($file, '/');
     }
 
     public static function url(string $file): string
@@ -36,7 +36,7 @@ final class Assets
     /**
      * A cache-busting query string, taken from the build.
      *
-     * `dist/version` is written by the package's own build script and holds a
+     * `assets/version` is written by the package's own build script and holds a
      * short hash of the sources, so a rebuilt bundle gets a new URL and no
      * browser serves a stale one.
      */

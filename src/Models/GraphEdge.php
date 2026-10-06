@@ -16,13 +16,11 @@ class GraphEdge extends Model
         'scan_id', 'source_key', 'target_key', 'kind', 'label', 'weight', 'hits', 'meta',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'meta' => 'array',
-            'kind' => EdgeKind::class,
-        ];
-    }
+    /** @var array<string, string> */
+    protected $casts = [
+        'meta' => 'array',
+        'kind' => EdgeKind::class,
+    ];
 
     public function scan(): BelongsTo
     {

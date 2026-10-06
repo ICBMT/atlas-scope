@@ -96,7 +96,7 @@ class AtlasScopeServiceProvider extends ServiceProvider
         ], 'atlas-config');
 
         $this->publishes([
-            __DIR__.'/../dist' => public_path('vendor/atlas'),
+            __DIR__.'/../assets' => public_path('vendor/atlas'),
         ], 'atlas-assets');
 
         // Laravel resolves error pages from resources/views/errors, which a

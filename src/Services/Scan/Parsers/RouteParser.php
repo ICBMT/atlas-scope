@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
-use PhpParser\ParserFactory;
+use Atlas\Scope\Support\Ast;
 
 /**
  * Interprets routes/*.php the way the framework would: walking the fluent
@@ -61,7 +61,7 @@ class RouteParser
 
     public function __construct()
     {
-        $this->parser = (new ParserFactory)->createForNewestSupportedVersion();
+        $this->parser = Ast::parser();
     }
 
     /** @return array<int, array> */

@@ -39,11 +39,47 @@ server's real capacity live and tells you which limit is binding, in numbers.
 
 | | |
 |---|---|
-| PHP | 8.3+ with `ext-zip` and `ext-mbstring` |
-| Laravel | 13.x |
+| PHP | **8.1 – 8.4**, with `ext-zip` and `ext-mbstring` |
+| Laravel | **10, 11, 12 or 13** — one codebase, no version branches |
 | Database | SQLite by default — the package ships migrations and nothing else |
-| Node | none. The renderer ships compiled in `dist/`; Node is only needed to rebuild it. |
+| Node | none. The renderer ships compiled in `assets/`; Node is only needed to rebuild it. |
 | Queue | optional — see [Running a scan](#running-a-scan) |
+| php-parser | `^4.19` or `^5.0`, whichever your application already has |
+
+### Compatibility
+
+Every supported combination is exercised by the package's own suite, on real
+runtimes — not asserted from a constraint file:
+
+```bash
+composer test:matrix        # Laravel 10, 11, 12 and 13, one cell each
+```
+
+| Laravel | Testbench | PHP | Result |
+|---|---|---|---|
+| 10.x | 8.x | 8.1 – 8.4 | ✅ 32 tests, 302 assertions |
+| 11.x | 9.x | 8.2 – 8.4 | ✅ 32 tests, 302 assertions |
+| 12.x | 10.x | 8.2 – 8.4 | ✅ 32 tests, 302 assertions |
+| 13.x | 11.x | 8.3 – 8.4 | ✅ 32 tests, 302 assertions |
+
+PHP 8.1 is the floor because Laravel 10's floor is 8.1, and because the codebase
+is written in the 8.1 language: enums, readonly properties, first-class typed
+signatures. Laravel 4–9 and PHP 5–8.0 are **not** supported, and supporting them
+would not be a constraint change — it would mean rewriting the scanner, the
+enums, the models and the assistant in an older dialect, with a different
+framework API for each major you add. If you need that, it is a fork, not a
+version range.
+
+Three things had to change for this range, and each is worth knowing if you
+touch the code:
+
+* **`$casts` is a property, not a method.** Laravel 11 introduced `casts()`;
+  Laravel 10 ignores the method and the model quietly loses every cast.
+* **No standalone `null` return types, and no `->value` inside constants** —
+  both are legal in newer PHP and fatal on 8.1. Enum label keys are written as
+  literal backed values, with a test that asserts they still match their cases.
+* **php-parser is wrapped** (`Atlas\Scope\Support\Ast`): 5.x renamed the parser
+  entry point and 4.x does not have it.
 
 ## Installation
 
@@ -69,7 +105,7 @@ a copy they can edit.
 
 ```bash
 php artisan vendor:publish --tag=atlas-config    # config/atlas.php
-php artisan vendor:publish --tag=atlas-assets    # dist/ → public/vendor/atlas
+php artisan vendor:publish --tag=atlas-assets    # assets/ → public/vendor/atlas
 php artisan vendor:publish --tag=atlas-errors    # error pages → resources/views/errors
 php artisan vendor:publish --tag=atlas-bin       # bin/limits.env, the dev-server upload limits
 php artisan vendor:publish --tag=atlas-sources   # the unbuilt CSS/JS, to rebuild yourself
@@ -152,8 +188,8 @@ Everything has a working default; see `config/atlas.php`.
 ## Rebuilding the renderer
 
 Only needed if you change the JavaScript. The package's build is self-contained:
-it emits `dist/atlas.js`, `dist/atlas.css` and a three.js chunk, plus a
-`dist/version` file the layout uses to cache-bust.
+it emits `assets/atlas.js`, `assets/atlas.css` and a three.js chunk, plus an
+`assets/version` file the layout uses to cache-bust.
 
 ```bash
 npm install

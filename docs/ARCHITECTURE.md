@@ -5,6 +5,23 @@ provides the framework, the database and the queue.
 
 A short tour for whoever reads the code next. The `README.md` covers usage.
 
+## Supported versions
+
+One codebase runs on Laravel 10, 11, 12 and 13, and on PHP 8.1 through 8.4; the
+matrix in `bin/test-matrix.sh` runs the suite in each combination. The constraint
+is written in `composer.json` and defended in three places in the code, each of
+which exists because a newer-PHP or newer-Laravel spelling failed on the oldest
+supported cell:
+
+| where | what it avoids |
+|---|---|
+| `src/Models/*.php` | `casts()` as a method — Laravel 10 silently ignores it, losing every cast |
+| `NodeType::LABELS` | `self::Model->value` inside a constant expression — PHP 8.2 syntax |
+| `Support\Ast::parser()` | php-parser 5's entry point, which php-parser 4 does not have |
+
+PHP 8.1 is the floor because Laravel 10 requires it, and because the scanner,
+the enums and the assistant are written in the 8.1 language.
+
 ## The pipeline
 
 An upload becomes a graph in a fixed sequence of stages, driven by

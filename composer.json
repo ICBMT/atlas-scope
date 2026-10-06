@@ -1,6 +1,6 @@
 {
-    "name": "nadeemkhan/atlas-scope",
-    "description": "Scan a Laravel, C++, C# or Python project and explore it as a 3D map of routes, classes, models, namespaces and database tables.",
+    "name": "atlas/scope",
+    "description": "Scan a Laravel, C++, C# or Python project and explore it as a 3D map of routes, classes, models, namespaces and database tables. Runs on Laravel 10, 11, 12 and 13.",
     "type": "library",
     "keywords": [
         "laravel",
@@ -13,15 +13,15 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.1",
         "ext-zip": "*",
         "ext-mbstring": "*",
-        "laravel/framework": "^10.0|^11.0|^12.0|^13.0",
-        "nikic/php-parser": "^5.0"
+        "laravel/framework": "^10.50 || ^11.0 || ^12.0 || ^13.0",
+        "nikic/php-parser": "^4.19 || ^5.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^11.0",
-        "phpunit/phpunit": "^12.5"
+        "orchestra/testbench": "^8.39 || ^9.0 || ^10.0 || ^11.0",
+        "phpunit/phpunit": "^10.1 || ^11.5 || ^12.0"
     },
     "suggest": {
         "ext-sqlite3": "The default database for a fresh install, and what the bundled dev server expects."
@@ -45,6 +45,7 @@
     },
     "scripts": {
         "test": "@php vendor/bin/phpunit",
+        "test:matrix": "bash bin/test-matrix.sh",
         "build": "vite build"
     },
     "config": {

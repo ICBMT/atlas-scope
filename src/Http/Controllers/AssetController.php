@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Serves the package's compiled renderer to the browser.
  *
  * Only used when the assets have not been published into `public/` (see
- * `Assets`). The path is resolved inside the package's own `dist/` directory
+ * `Assets`). The path is resolved inside the package's own `assets/` directory
  * and refused if it escapes it — a request may never name a file outside the
  * build it is asking for.
  */

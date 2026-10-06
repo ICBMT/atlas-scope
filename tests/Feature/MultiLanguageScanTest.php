@@ -573,8 +573,30 @@ CPP);
             $tokens = $lexer->tokenize($source, $name === 'csharp');
 
             $this->assertNotEmpty($tokens, $name.' produced no tokens');
-            $this->assertContainsOnlyArray($tokens);
+            // `assertContainsOnlyArray` only exists from PHPUnit 11; every
+            // token being an array is asserted the same way on 10, 11 and 12.
+            $this->assertSame([], array_filter($tokens, fn ($token) => ! is_array($token)), $name.' produced a token that is not an array');
             $this->assertCount(3, $tokens[0], 'Every token is [kind, text, line].');
+        }
+    }
+
+    /**
+     * `NodeType::LABELS` names enum cases by their backed value as literal
+     * strings (PHP 8.1 cannot read `self::Model->value` in a constant
+     * expression), so a renamed case would silently stop matching. This is that
+     * guard: every key must still be a real case value.
+     */
+    public function test_the_language_label_table_names_real_node_types(): void
+    {
+        $known = array_map(fn (NodeType $type) => $type->value, NodeType::cases());
+        $table = (new \ReflectionClass(NodeType::class))->getConstant('LABELS');
+
+        $this->assertNotEmpty($table, 'The label table went missing.');
+
+        foreach ($table as $language => $labels) {
+            foreach (array_keys($labels) as $key) {
+                $this->assertContains($key, $known, "NodeType::LABELS['$language'] names '$key', which is not a NodeType.");
+            }
         }
     }
 

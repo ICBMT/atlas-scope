@@ -20,16 +20,14 @@ class Scan extends Model
         'file_count', 'node_count', 'edge_count', 'duration_ms', 'started_at', 'finished_at',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'stages' => 'array',
-            'metrics' => 'array',
-            'started_at' => 'datetime',
-            'finished_at' => 'datetime',
-            'status' => ScanStatus::class,
-        ];
-    }
+    /** @var array<string, string> */
+    protected $casts = [
+        'stages' => 'array',
+        'metrics' => 'array',
+        'started_at' => 'datetime',
+        'finished_at' => 'datetime',
+        'status' => ScanStatus::class,
+    ];
 
     protected static function booted(): void
     {

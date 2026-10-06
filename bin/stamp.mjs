@@ -5,7 +5,7 @@
  *
  *   - the favicon is copied next to the bundle, so the package's own assets do
  *     not depend on the host application having one;
- *   - `dist/version` is written from a hash of everything in `dist/`. The
+ *   - `assets/version` is written from a hash of everything in `assets/`. The
  *     layout appends it as a query string, so a rebuilt bundle is a new URL and
  *     no browser serves a stale copy of the renderer.
  */
@@ -13,7 +13,7 @@ import { createHash } from 'node:crypto';
 import { copyFileSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-const dist = new URL('../dist/', import.meta.url).pathname;
+const dist = new URL('../assets/', import.meta.url).pathname;
 const root = new URL('../', import.meta.url).pathname;
 
 copyFileSync(join(root, 'resources/favicon.svg'), join(dist, 'favicon.svg'));
@@ -37,4 +37,4 @@ writeFileSync(join(dist, 'version'), version + '\n');
 
 const size = walk(dist).reduce((total, file) => total + statSync(file).size, 0);
 
-console.log(`dist/ stamped: version ${version}, ${(size / 1024).toFixed(0)} kB across ${walk(dist).length} files`);
+console.log(`assets/ stamped: version ${version}, ${(size / 1024).toFixed(0)} kB across ${walk(dist).length} files`);

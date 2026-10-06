@@ -78,18 +78,23 @@ enum NodeType: string
     /**
      * Per-language names for the handful of types whose framework name would be
      * wrong anywhere else.
+     *
+     * The keys are the enum's backed values, written out. `self::Model->value`
+     * would be prettier, but reading a property off an enum case inside a
+     * constant expression is newer than PHP 8.1 — and this package supports 8.1.
+     * A test asserts these keys still match the cases they name.
      */
     private const LABELS = [
         // An EF Core or domain entity is a model, not an Eloquent one.
         'csharp' => [
-            self::Model->value => 'Model',
+            'model' => 'Model',
         ],
         'python' => [
-            self::Model->value => 'Model',
-            self::View->value => 'Template',
-            self::Command->value => 'Command',
-            self::Request->value => 'Form',
-            self::Resource->value => 'Serializer',
+            'model' => 'Model',
+            'view' => 'Template',
+            'command' => 'Command',
+            'request' => 'Form',
+            'resource' => 'Serializer',
         ],
     ];
 

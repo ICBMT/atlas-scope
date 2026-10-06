@@ -25,13 +25,11 @@ class Project extends Model
         'composer_description', 'package_count', 'meta', 'last_scanned_at',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'meta' => 'array',
-            'last_scanned_at' => 'datetime',
-        ];
-    }
+    /** @var array<string, string> */
+    protected $casts = [
+        'meta' => 'array',
+        'last_scanned_at' => 'datetime',
+    ];
 
     protected static function booted(): void
     {

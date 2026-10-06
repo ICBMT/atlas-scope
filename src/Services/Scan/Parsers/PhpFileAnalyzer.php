@@ -11,8 +11,8 @@ use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
-use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Atlas\Scope\Support\Ast;
 
 /**
  * Parses one PHP file into a rich, framework-aware description.
@@ -84,7 +84,7 @@ class PhpFileAnalyzer
 
     public function __construct()
     {
-        $this->parser = (new ParserFactory)->createForNewestSupportedVersion();
+        $this->parser = Ast::parser();
         $this->printer = new PrettyPrinter;
     }
 
@@ -425,7 +425,15 @@ class PhpFileAnalyzer
                     private readonly array $descriptor,
                 ) {}
 
-                public function enterNode(Node $node): null
+                /**
+                 * Reading only: the visitor collects into its own arrays and
+                 * always returns nothing.
+                 *
+                 * The return type is `mixed` rather than a bare `null`, because
+                 * a standalone `null` type is PHP 8.2 syntax and this package
+                 * supports 8.1.
+                 */
+                public function enterNode(Node $node): mixed
                 {
                     // new Foo(...)
                     if ($node instanceof Expr\New_ && $node->class instanceof Name) {

@@ -15,13 +15,11 @@ class ScanEvent extends Model
 
     protected $fillable = ['scan_id', 'level', 'stage', 'message', 'context', 'created_at'];
 
-    protected function casts(): array
-    {
-        return [
-            'context' => 'array',
-            'created_at' => 'datetime',
-        ];
-    }
+    /** @var array<string, string> */
+    protected $casts = [
+        'context' => 'array',
+        'created_at' => 'datetime',
+    ];
 
     public function scan(): BelongsTo
     {

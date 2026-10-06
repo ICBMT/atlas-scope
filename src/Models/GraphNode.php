@@ -20,14 +20,12 @@ class GraphNode extends Model
         'pos_x', 'pos_y', 'pos_z', 'meta',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'meta' => 'array',
-            'type' => NodeType::class,
-            'layer' => Layer::class,
-        ];
-    }
+    /** @var array<string, string> */
+    protected $casts = [
+        'meta' => 'array',
+        'type' => NodeType::class,
+        'layer' => Layer::class,
+    ];
 
     public function scan(): BelongsTo
     {
