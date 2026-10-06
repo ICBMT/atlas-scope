@@ -1,5 +1,5 @@
 {
-    "name": "atlas/scope",
+    "name": "nadeemkhan/atlas-scope",
     "description": "Scan a Laravel, C++, C# or Python project and explore it as a 3D map of routes, classes, models, namespaces and database tables.",
     "type": "library",
     "keywords": [
